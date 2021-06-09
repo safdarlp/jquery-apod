@@ -1,4 +1,5 @@
 var apod = {
+
     //Create a random date
     randomDate: function(start, end) {
       //Randomize the date https://gist.github.com/miguelmota/5b67e03845d840c949c4
@@ -21,9 +22,24 @@ var apod = {
       return `${y}-${m}-${d}`;
     },
 
+    showVideo: function(){
+      jQuery(function ($) { 
+      $("#apodImage").hide();
+      $("#apodVideo > iframe").attr("src", result.url).show();
+      });
+    },
+  
+    showImage: function(){
+      jQuery(function ($) { 
+      $("#apodVideo").hide();
+      $("#apodImg").attr("src", result.url).attr('alt', result.title).show();
+      });
+    },
+
+
     // Application Constructor
-//Injects the results of the API call into the DOM
-buildDOM: function(result) {
+    //Injects the results of the API call into the DOM
+    buildDOM: function(result) {
     $("#apodTitle").text(result.title);
   
     if(result.media_type === 'video') {
@@ -38,12 +54,13 @@ buildDOM: function(result) {
     $("#apodDate").text("Date: " + result.date);
     $("#apodDesc").text(result.explanation);
   },
-  
+   
   //Executes an AJAX call to an API.
   getRequest: function() {
     let _this = this;
     let date = this.randomDate(new Date(1995, 5, 16), new Date());
-    let url = "https://api.nasa.gov/planetary/apod?api_key=b08svYkucjwzmFnEeLqjOBZjYyWjc5T8UCmfwMmx&date=" + date;
+    let key = 'b08svYkucjwzmFnEeLqjOBZjYyWjc5T8UCmfwMmx';
+    var url = 'https://api.nasa.gov/planetary/apod?api_key=${key}&date=' + date;
     $.ajax({
         url: url
     }).done(function(result){
@@ -70,4 +87,3 @@ buildDOM: function(result) {
   
 
 
-// var url = "https://api.nasa.gov/planetary/apod?api_key=b08svYkucjwzmFnEeLqjOBZjYyWjc5T8UCmfwMmx&date=" + date;
